@@ -1,0 +1,3 @@
+name = Client Stream Wrappers
+core = 7.x
+files[] = client.wrappers.inc

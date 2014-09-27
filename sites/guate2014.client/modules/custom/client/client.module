@@ -1,0 +1,47 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+function client_menu() {
+  return array(
+    'client/settings' => array(
+      'title' => 'Settings',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('client_settings'),
+      'access arguments' => array('administer site configuration'),
+      'file' => 'client.settings.inc',
+    ),
+    'system/client' => array(
+      'title' => 'File download',
+      'page callback' => 'file_download',
+      'page arguments' => array('client'),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    ),
+  );
+}
+
+/**
+ * Implements hook_stream_wrappers.
+ */
+function client_stream_wrappers() {
+  return array(
+    'client' => array(
+      'name' => t('Client files'),
+      'class' => 'ClientStreamWrapper',
+      'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
+    ),
+    'remote' => array(
+      'name' => t('Remote files'),
+      'class' => 'RemoteStreamWrapper',
+      'type' => STREAM_WRAPPERS_READ,
+    ),
+  );
+}
+
+/**
+ * Implements hook_init().
+ */
+function client_init() {
+  drupal_add_js(drupal_get_path('module', 'client') . '/js/client.js');
+}
